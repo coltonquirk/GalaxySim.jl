@@ -1,0 +1,4 @@
+name = "GalaxySim"
+uuid = "b01cb5ff-5afe-4778-97e3-a0def5fd99d1"
+version = "0.1.0"
+authors = ["Colton Quirk <coltonquirk@gmail.com>"]
