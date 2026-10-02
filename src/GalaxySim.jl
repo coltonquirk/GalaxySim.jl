@@ -1,17 +1,12 @@
 module GalaxySim
 
-"""
-    hello(who::String)
+using LinearAlgebra
 
-Return "Hello, `who`".
-"""
-hello(who::String) = "Hello, $who"
+include("simulation.jl")
+include("barnes_hut/barnes_hut.jl")
 
-"""
-    domath(x::Number)
-
-Return `x + 5`.
-"""
-domath(x::Number) = x + 5
+export Particle
+export Particles
+export grav_force
 
 end # module GalaxySim
