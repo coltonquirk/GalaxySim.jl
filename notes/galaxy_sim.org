@@ -1,0 +1,95 @@
+#+title: How to Simulate a Galaxy
+#+author: Colton Quirk
+#+bibliography: references.bib
+#+cite_export: bibtex mnras
+
+* Introduction
+This is my exploration into simulatin a galaxy using Julia.
+My goal is to build up a simulation using more and more advanced features as I add to it.
+This will allow me to learn about the process of simulating a galaxy, as well as best practices for high performance Julia code.
+
+I will start with:
+- Basic particle type
+- Direct summation of forces
+- Runge-Kutta and Symplectic integrators with fixed and/or variable timesteps
+
+Eventually I will add things like:
+- Barnes-Hut algorithm for force summation
+- Fast Multipole Method for force summation
+- Smoothed Particle Hydrodynamics
+- Mesh-grid fluid-like simulations
+
+Finally/during the development I will learn how to make these systems parallel.
+This could include, but is not limited to, multi-threading and GPU acceleration.
+
+** Setting up the package
+
+#+begin_src bash :eval never
+julia --eval 'using Pkg; Pkg.generate("GalaxySim")'
+
+cd GalaxySim
+julia --eval 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+
+cd GalaxySim
+touch main.jl
+echo using GalaxySim >> main.jl
+
+git init .
+git add Project.toml
+git add main.jl
+git add src/
+git commit -m 'Initial Commit'
+#+end_src
+
+#+RESULTS:
+
+** DONE Configure startup.jl
+*Remember to activate the environment!*
+- Add this to ~startup.jl~:
+
+#+begin_src julia :eval never
+using Pkg
+if isfile("Project.toml") && isfile("Manifest.toml")
+    Pkg.activate(".")
+end
+
+try
+    using Revise
+catch e
+    @warn "Error initializing Revise" exception=(e, catch_backtrace())
+end
+
+println(":")
+println(":" * pwd())
+println(":")
+#+end_src
+
+* Particle Types
+** Basic Particle
+A basic particle needs to hold a few key pieces of information.
+1. Its mass, to determine how it effects other particles
+2. Its position, so we know where it is relative to the other particles
+3. Its velocity, so we know how it moves throughout the galaxy.
+
+I in previous projects have been very fond of the Dynamic Form of ODEs as described by [cite:@landauComputationalPhysics2024].
+
+#+begin_src julia
+using GalaxySim
+#+end_src
+
+** Smoothed Particle Hydrodynamics Particle
+* Summation of Forces
+** Direct Summation
+** Barnes-Hut Algorithm
+** Fast Multipole Method
+* Integration of Forces
+** Euler Method
+** Symplectic Methods
+* Fluid Dynamics
+** Smoothed Particle Hydrodynamics
+\[
+\rho(\mathbf{r}) = \sum_{b=1}^{N_{\mathrm{neigh}}} m_{b} W(\mathbf{r}-\mathbf{r}_b, h_b)
+\]
+** Grid based methods
+
+#+print_bibliography:

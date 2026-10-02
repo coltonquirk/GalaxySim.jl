@@ -1,0 +1,123 @@
+% Created 2026-10-01 Thu 17:18
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Colton Quirk}
+\date{\today}
+\title{How to Simulate a Galaxy}
+\hypersetup{
+ pdfauthor={Colton Quirk},
+ pdftitle={How to Simulate a Galaxy},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={},
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+\label{sec:org282501a}
+This is my exploration into simulatin a galaxy using Julia.
+My goal is to build up a simulation using more and more advanced features as I add to it.
+This will allow me to learn about the process of simulating a galaxy, as well as best practices for high performance Julia code.
+
+I will start with:
+\begin{itemize}
+\item Basic particle type
+\item Direct summation of forces
+\item Runge-Kutta and Symplectic integrators with fixed and/or variable timesteps
+\end{itemize}
+
+Eventually I will add things like:
+\begin{itemize}
+\item Barnes-Hut algorithm for force summation
+\item Fast Multipole Method for force summation
+\item Smoothed Particle Hydrodynamics
+\item Mesh-grid fluid-like simulations
+\end{itemize}
+
+Finally/during the development I will learn how to make these systems parallel.
+This could include, but is not limited to, multi-threading and GPU acceleration.
+\subsection{Setting up the package}
+\label{sec:org90dd33a}
+
+\begin{verbatim}
+julia --eval 'using Pkg; Pkg.generate("GalaxySim")'
+
+cd GalaxySim
+julia --eval 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+
+cd GalaxySim
+touch main.jl
+echo using GalaxySim >> main.jl
+
+git init .
+git add Project.toml
+git add main.jl
+git add src/
+git commit -m 'Initial Commit'
+\end{verbatim}
+\subsection{{\bfseries\sffamily TODO} Configure startup.jl}
+\label{sec:org2c84c71}
+\textbf{Remember to activate the environment!}
+\begin{itemize}
+\item Add this to \texttt{startup.jl}
+\end{itemize}
+\section{Particle Types}
+\label{sec:org7064015}
+\subsection{Basic Particle}
+\label{sec:orgfbbd58a}
+A basic particle needs to hold a few key pieces of information.
+\begin{enumerate}
+\item Its mass, to determine how it effects other particles
+\item Its position, so we know where it is relative to the other particles
+\item Its velocity, so we know how it moves throughout the galaxy.
+\end{enumerate}
+
+I in previous projects have been very fond of the Dynamic Form of ODEs as described by \cite{landauComputationalPhysics2024}.
+
+\begin{verbatim}
+using GalaxySim
+\end{verbatim}
+\subsection{Smoothed Particle Hydrodynamics Particle}
+\label{sec:orge14667e}
+\section{Summation of Forces}
+\label{sec:orgad818a3}
+\subsection{Direct Summation}
+\label{sec:org634afff}
+\subsection{Barnes-Hut Algorithm}
+\label{sec:orgb8ecda3}
+\subsection{Fast Multipole Method}
+\label{sec:orga89d195}
+\section{Integration of Forces}
+\label{sec:org7bf01f9}
+\subsection{Euler Method}
+\label{sec:org1da0f17}
+\subsection{Symplectic Methods}
+\label{sec:org27b005c}
+\section{Fluid Dynamics}
+\label{sec:orgc96882d}
+\subsection{Smoothed Particle Hydrodynamics}
+\label{sec:orga2f2b1e}
+\[
+\rho(\mathbf{r}) = \sum_{b=1}^{N_{\mathrm{neigh}}} m_{b} W(\mathbf{r}-\mathbf{r}_b, h_b)
+\]
+\subsection{Grid based methods}
+\label{sec:org8897bef}
+
+\bibliographystyle{mnras}
+\bibliography{references}
+\end{document}
