@@ -3,7 +3,7 @@
 #+bibliography: references.bib
 #+cite_export: bibtex mnras
 
-* Introduction
+* Motivation/Goals 
 This is my exploration into simulatin a galaxy using Julia.
 My goal is to build up a simulation using more and more advanced features as I add to it.
 This will allow me to learn about the process of simulating a galaxy, as well as best practices for high performance Julia code.
@@ -22,47 +22,31 @@ Eventually I will add things like:
 Finally/during the development I will learn how to make these systems parallel.
 This could include, but is not limited to, multi-threading and GPU acceleration.
 
-** Setting up the package
+I also want to use this as a project to learn more about best practices with Julia, how to make and share usable code, and how to optimize Julia code to make it blazingly-fast.
 
-#+begin_src bash :eval never
-julia --eval 'using Pkg; Pkg.generate("GalaxySim")'
+* Introduction
+What does it mean to simulate a galaxy?
+What does it take to simulate one on a computer?
+These are questions I myself have wanted to learn and answer for a long time.
 
-cd GalaxySim
-julia --eval 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+** N-body Problem
 
-cd GalaxySim
-touch main.jl
-echo using GalaxySim >> main.jl
 
-git init .
-git add Project.toml
-git add main.jl
-git add src/
-git commit -m 'Initial Commit'
-#+end_src
-
-#+RESULTS:
-
-** DONE Configure startup.jl
-*Remember to activate the environment!*
-- Add this to ~startup.jl~:
-
-#+begin_src julia :eval never
-using Pkg
-if isfile("Project.toml") && isfile("Manifest.toml")
-    Pkg.activate(".")
-end
-
-try
-    using Revise
-catch e
-    @warn "Error initializing Revise" exception=(e, catch_backtrace())
-end
-
-println(":")
-println(":" * pwd())
-println(":")
-#+end_src
+* Plan
+How do we break this problem down into manageable parts?
+What is the overall structure of the simulation/project?
+There should be one ~main.jl~ file from which the simulation can run.
+We need a particle type to hold various information about the particles that make up the galaxy.
+In the future we could add different types/properties of the particles such as Dark Matter or Bulge/Disk particles.
+We need the kernel/force(s) that interact between each individual particle.
+We need some method to sum the forces acting on the particles solving the N-body problem.
+This can be done initially with direct summation.
+The "frontend" should be flexible enough that the "backend" implementation of the sum of forces can be swapped out.
+This will allow for more advanced summation techniques to be placed in without needing to change how the simulation is run.
+We need a way to integrate the forces forward in time.
+We can also integrate various integration schemes to accomplish this.
+As a convenience we should have a function which "seeds" the galaxy with particles.
+We could include some known starting configurations as well.
 
 * Particle Types
 ** Basic Particle
@@ -93,3 +77,47 @@ using GalaxySim
 ** Grid based methods
 
 #+print_bibliography:
+
+* Appendix
+** Workflow items
+*** Setting up the package
+
+#+begin_src bash :eval never
+julia --eval 'using Pkg; Pkg.generate("GalaxySim")'
+
+cd GalaxySim
+julia --eval 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+
+cd GalaxySim
+touch main.jl
+echo using GalaxySim >> main.jl
+
+git init .
+git add Project.toml
+git add main.jl
+git add src/
+git commit -m 'Initial Commit'
+#+end_src
+
+#+RESULTS:
+
+*** DONE Configure startup.jl
+*Remember to activate the environment!*
+- Add this to ~startup.jl~:
+
+#+begin_src julia :eval never
+using Pkg
+if isfile("Project.toml") && isfile("Manifest.toml")
+    Pkg.activate(".")
+end
+
+try
+    using Revise
+catch e
+    @warn "Error initializing Revise" exception=(e, catch_backtrace())
+end
+
+println(":")
+println(":" * pwd())
+println(":")
+#+end_src

@@ -16,7 +16,7 @@ end
 Particles type to hold collection of all particles in the simulation
 """
 Base.@kwdef mutable struct Particles{
-  Tp <: AbstractVector{Particle}
+  Tp <: AbstractVector{<:Particle}
 }
     particles::Tp
 end
@@ -165,4 +165,21 @@ function simulate(N::Int, t_start, t_end, dt)
         update!(particles, dt)
         t += dt
     end
+end
+
+# TODO: Add a method to track the history of the particle(s)
+
+@doc raw"""
+function to test summation of forces.
+"""
+function euler_test(p1::Particle, p2::Particle; t_start = 0.0, t_end=1.0, dt=1e-2)
+    println("starting integration")
+    t = t_start
+    while t < t_end
+        p1.vel += grav_force(p1, p2)*dt
+        p1.pos += p1.vel*dt
+        println(p1.pos)
+        t += dt
+    end
+    println("finished integration.")
 end

@@ -1,4 +1,4 @@
-# GalaxySim
+# GalaxySim.jl
 
 This is a personal project where I will create a galaxy simulation using the Julia programming language.
 My goal is to build up a simulation using more and more advanced features as I add to it.
