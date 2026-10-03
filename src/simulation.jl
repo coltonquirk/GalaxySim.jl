@@ -12,7 +12,7 @@ Base.@kwdef mutable struct Particle{
     m :: Tm
 end
 
-"""
+@doc raw"""
 Particles type to hold collection of all particles in the simulation
 """
 Base.@kwdef mutable struct Particles{
@@ -173,7 +173,7 @@ end
 function to test summation of forces.
 """
 function euler_test(p1::Particle, p2::Particle; t_start = 0.0, t_end=1.0, dt=1e-2)
-    println("starting integration")
+    println("Starting Integration")
     t = t_start
     while t < t_end
         p1.vel += grav_force(p1, p2)*dt
@@ -181,5 +181,5 @@ function euler_test(p1::Particle, p2::Particle; t_start = 0.0, t_end=1.0, dt=1e-
         println(p1.pos)
         t += dt
     end
-    println("finished integration.")
+    println("Finished Integration.")
 end

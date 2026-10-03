@@ -31,7 +31,6 @@ These are questions I myself have wanted to learn and answer for a long time.
 
 ** N-body Problem
 
-
 * Plan
 How do we break this problem down into manageable parts?
 What is the overall structure of the simulation/project?
@@ -57,11 +56,18 @@ A basic particle needs to hold a few key pieces of information.
 
 I in previous projects have been very fond of the Dynamic Form of ODEs as described by [cite:@landauComputationalPhysics2024].
 
+The following struct describes the basic properties needed for a particle.
 #+begin_src julia
-using GalaxySim
+struct Particle{}
+    pos::Vector{Float64}
+    vel::Vector{Float64}
+    m::Float64
+end
 #+end_src
 
 ** Smoothed Particle Hydrodynamics Particle
+Particles used in Smoothed Particle Hydrodynamic simulations do are not just point-like particles.
+Instead they exist over some volumen defined by the smootheing kernel, $W$, and the smoothing length $h$.
 * Summation of Forces
 ** Direct Summation
 ** Barnes-Hut Algorithm
