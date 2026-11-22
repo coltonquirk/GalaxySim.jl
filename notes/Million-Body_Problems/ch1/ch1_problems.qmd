@@ -1,0 +1,57 @@
+---
+title: "Chapter 1 Problems"
+author: "Colton Quirk"
+engine: julia
+---
+
+## Problem 1
+1. Compute the virial radius (Box 1.1) of a binary consisting of two stars of mass $m_{1}$ and $m_{2}$ in a circular relativeorbit of radius $a$.
+
+## Problem 2
+2. Compute the speed of a star in a circular orbit at the median tidal radius (@tbl-data) around a cluster of median mass. Do this in astrophysical, physical, and *N*-body units.
+
+## Problem 3
+3. Using the fact that the magnitude, $m$, and luminosity $L$, of a source at a distance $d$ are related by 
+$$
+m = -2.5 \log_{10} \frac{L}{L_{\odot}} + 5 \log_{10} \frac{d}{10 \mathrm{pc}} + M_{\odot}
+$$ {#eq-mag-dist-relation}
+where $L_{\odot}$ and $M_{\odot}$ are the luminosity and absolute magnitude of the Sun, find the mean surface brightness (within the tidal radius) of the median globular cluster (using data from @tbl-data) Express your result in magnitudes per square arcsecond.
+
+
+## Table 1.1
+
+
+| Data                                           | Value                           |
+-------------------------------------------------|----------------------------------
+| Number Known                                   | $147$                           |
+| Median distance from Galactic Center           | $9.3\mathrm{kpc}$               |
+| Median absolute $V$ magnitude                  | $-7.27$                         |
+| Median concentration                           | $1.50$                          |
+| Median core relaxation time                    | $3.39 \times 10^{8}\mathrm{yr}$ |
+| Median relaxation time at the half-mass radius | $1.17 \times 10^{9}\mathrm{yr}$ |
+| Median core radius                             | $1.32\mathrm{pc}$               |
+| Median half-mass radius                        | $3.08\mathrm{pc}$               |
+| Median tidal radius                            | $34.5\mathrm{pc}$               |
+| Median mass                                    | $8.1 \times 10^4 M_{\odot}$     |
+| Median line-of-sight velocity dispersion       | $5.50\mathrm{km/s}$             |
+
+: Basic facts about the globular clusters of the Galaxy {#tbl-data}
+
+## Box 1.1 Units
+
+::: {.callout-tip}
+Consider a stellar system whose total mass and energy are $M$ and $E$, respectively.
+Then we may choose $M$ for the unit of mass, and in simple cases a common and useful unit of length is the *virial radius* $R_v = -\frac{GM^2}{4E}$. 
+(For example, for a binary star this is roughly the diameter of the relative orbit.)
+Unit of time: $U_{t} = R_{v}^{3 / 2} / \sqrt{GM}$.
+Crossing time: $2\sqrt{2}U_{t}$ 
+
+For masses in $M_{\odot}$, speed in $\mathrm{km/s}$ and distances in parsec $\mathrm{pc}$ then $G \approx 1/232$.
+Unit of time is approximately $10^{6}$ years.
+
+For simulations $G=1$ is typically choosen.
+Choose masses for the system such that $M_{\mathrm{total}}=1$ and $E_{\mathrm{total}}=-1/4$.
+These are chosen so that if the system is in virial equilibrium then potential energy $W=-1/2$ and the virial radius is $R_{v}=1$.
+These are the *N*-body units.
+::: 
+
