@@ -1,0 +1,10 @@
+---
+title: "Gravitational NBody Simulation"
+author: "Colton Quirk"
+---
+
+# Introduction
+
+$$
+\ddot{\mathbf{r}}_{i} = -G \sum_{j=1,j \neq i}^{j=N} m_j \frac{\mathbf{r}_i - \mathbf{r}_j}{\| \mathbf{r}_{i} - \mathbf{r}_{j} \|^{3}}
+$$
