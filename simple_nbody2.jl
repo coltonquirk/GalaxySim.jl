@@ -11,7 +11,6 @@ mutable struct Particle
     m
 end
 
-
 function grav_force(p::Particle, p_other::Particle)
     r = p.pos - p_other.pos
     F = - G * p.m * p_other.m * r / norm(r)^3
@@ -25,8 +24,9 @@ function calc_forces(particles, force)
         for (j, p_other) in enumerate(particles)
             if i > j
                 f = force(p, p_other)
-                forces[i, :] += f
-                forces[j, :] -= f
+                # Need to calculate acceleration not force
+                forces[i, :] += f / p.m
+                forces[j, :] -= f / p_other.m
             else
                 continue
             end
@@ -46,40 +46,26 @@ function integrate!(t, particles, force, dt)
 
     # Drift
     for (i, p) in enumerate(particles)
-        p.pos += p.pos + p.vel * dt
+        p.pos += p.vel * dt
     end
 
-    # Kick
     fR_new = calc_forces(particles, force)
+
+    # Kick
     for (i, p) in enumerate(particles)
-        p.vel += p.vel + 0.5 * fR_new[i, :] * dt
+        p.vel += 0.5 * fR_new[i, :] * dt
     end
 end
 
-function simulate(;t0=0.0, tf=20*4π, Δt=1e-2)
-    p1 = Particle(
-        [-1.0, 0, 0],
-        [0, -1.0, 0],
-        1.0
-    )
-
-    p2 = Particle(
-        [1, 0, 0],
-        [0, 1.0, 0],
-        1.0
-    )
-
-    particles = [p1, p2]
-
+function simulate(particles, force; t0=0.0, tf=20*4π, Δt=1e-2)
     t = t0
     hist = []
     while t<tf
-        integrate!(t, particles, grav_force, Δt)
+        integrate!(t, particles, force, Δt)
         push!(hist, [particles[1].pos; particles[2].pos])
         t += Δt
     end
 
-    # hist
     reduce(hcat, hist)'
 end
 
@@ -96,5 +82,19 @@ function plot_hist(hist)
     fig
 end
 
-test = simulate()
-plot_hist(test)
+p1 = Particle(
+    [0.0, 0, 0],
+    [0, 0.0, 0],
+    1.0
+)
+
+p2 = Particle(
+    [1, 0, 0],
+    [0, 2π, 0],
+    1.0e-8
+)
+
+particles = [p1, p2]
+
+test = simulate(particles, grav_force;)
+fig = plot_hist(test)
