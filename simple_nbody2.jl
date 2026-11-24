@@ -1,7 +1,5 @@
 using GLMakie
 using LinearAlgebra
-using CSV
-using Unitful, UnitfulAstro
 
 const G = 1.0
 
