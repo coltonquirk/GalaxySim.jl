@@ -73,19 +73,48 @@ function simulate(
     reduce(hcat, hist[2:end])' # need to remove the random starting position # hist # stack(hist)
 end
 
-function plot_hist(hist)
-    N = size(hist)[2]÷3
+###############################################################################
+#                                   Plotting                                  #
+###############################################################################
+
+
+function plot_hist(hist; skip=100)
+    N = size(hist)[2] # ÷3
     fig = Figure()
     ax = Axis3(fig[1,1])
 
-    i = 1
-    while i <= N*3
-        lines!(ax, hist[:, i:i+2])
-        i += 3
+    for i in 1:3:(N-2)
+        lines!(ax, hist[begin:skip:end, i:i+2])
     end
 
     fig
 end
+
+function anim_hist(hist; limits=(nothing, nothing, nothing), skip=100, seconds=1e-2)
+    idx = Observable(1)
+
+    fig = Figure()
+    ax = Axis3(
+        fig[1,1],
+        limits = limits
+    )
+
+    data = @lift hist[$idx, :]
+
+    points = @lift [Point3f($data[i:i+2]) for i in 1:3:(length($data)-2)]
+    scatter!(points)
+
+    display(fig)
+    for i in 1:skip:size(hist)[1]
+        idx[] = i
+        # autolimits!(ax)
+        sleep(seconds)
+    end
+end
+
+###############################################################################
+#                               Testing/Example                               #
+###############################################################################
 
 p1 = Particle(
     [-1.0, 0.0, 0.0],
