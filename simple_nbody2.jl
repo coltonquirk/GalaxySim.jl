@@ -20,9 +20,8 @@ function grav_force(p::Particle, p_other::Particle)
     return F
 end
 
-function calc_forces(particles, force)
+function calc_forces(particles::Vector{<:Particle}, force::Function)
     forces = zeros((length(particles), 3))
-
     for (i, p) in enumerate(particles)
         for (j, p_other) in enumerate(particles)
             if i > j
