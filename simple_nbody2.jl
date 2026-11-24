@@ -136,7 +136,13 @@ p3 = Particle(
 
 particles = [p1, p2, p3]
 test = simulate(particles, grav_force;)
-fig = plot_hist(test)
+plot_hist(test)
+anim_hist(
+    test;
+    limits = (-90, 10, -10, 10, -2, 2),
+    skip=50,
+    seconds = 1e-2
+)
 
 Sun = Particle(
     [0.0, 0.0, 0.0],
@@ -154,7 +160,13 @@ Earth = Particle(
 
 solar_system = [Sun, Earth]
 sol = simulate(solar_system, grav_force;)
-fig = plot_hist(sol)
+plot_hist(sol; skip=10)
+anim_hist(
+    sol;
+    limits = (-1, 1, -1, 1, -1, 1),
+    skip=10,
+    seconds=1e-2
+)
 
 
 # Orbit I.A.1 i.c.
@@ -181,9 +193,6 @@ periodic = simulate(particles, grav_force)
 plot_hist(periodic)
 
 # Broucke A 1
-# TODO: Currently not actually stable
-#       could be not putting in correct initial values
-#       or could be not accurate enough integration
 p1 = Particle(
     [-0.9892620043, 0.0, 0.0],
     [0.0, 1.9169244185, 0.0],
@@ -203,5 +212,11 @@ p3 = Particle(
 )
 
 particles = [p1, p2, p3]
-broucke = simulate(particles, grav_force)
-plot_hist(broucke)
+broucke = simulate(particles, grav_force; tf = 20.0, Δt=1e-4)
+plot_hist(broucke; skip=500)
+anim_hist(
+    broucke;
+    limits = (-3, 3, -1, 1, -2, 2),
+    skip=50,
+    seconds = 1e-4
+)
