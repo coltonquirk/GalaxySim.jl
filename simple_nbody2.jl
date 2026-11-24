@@ -5,10 +5,13 @@ using Unitful, UnitfulAstro
 
 const G = 1.0
 
-mutable struct Particle
-    pos
-    vel
-    m
+mutable struct Particle{
+    Tmat<:AbstractVecOrMat{<:Real},
+    Tmass<:Real
+}
+    pos::Tmat
+    vel::Tmat
+    m::Tmass
 end
 
 function grav_force(p::Particle, p_other::Particle)
