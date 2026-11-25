@@ -289,8 +289,11 @@ function anim_hist(hist; limits=(nothing, nothing, nothing), skip=100, seconds=1
 
     data = @lift hist[$idx, :]
 
+    # TODO: Add CircularBuffer to track history of the particles
     points = @lift [Point3f($data[i:i+2]) for i in 1:3:(length($data)-2)]
-    scatter!(points)
+    N = size(hist)[2] ÷ 3
+    colors = [Makie.wong_colors()[(i-1)%7+1] for i in 1:N]
+    scatter!(points, color=colors) # color=Makie.wong_colors()) # color = 1:N, colormap=Makie.wong_colors()
 
     display(fig)
     for i in 1:skip:size(hist)[1]
