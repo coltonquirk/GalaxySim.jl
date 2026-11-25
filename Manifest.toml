@@ -2,7 +2,7 @@
 
 julia_version = "1.13.4"
 manifest_format = "2.1"
-project_hash = "bfe2b73e2c5daac2390ba935ccceecbaa0e53f9e"
+project_hash = "7c7aa5b54cc62328205b1f7ff0bdb5bf1f441ce7"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -673,7 +673,7 @@ uuid = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
 version = "0.13.17"
 
 [[deps.GalaxySim]]
-deps = ["CairoMakie", "GLMakie", "LinearAlgebra", "Makie", "Pluto", "Revise", "WGLMakie"]
+deps = ["CairoMakie", "DataStructures", "GLMakie", "LinearAlgebra", "Makie", "Pluto", "Revise", "WGLMakie"]
 path = "."
 uuid = "b01cb5ff-5afe-4778-97e3-a0def5fd99d1"
 version = "0.1.0"
