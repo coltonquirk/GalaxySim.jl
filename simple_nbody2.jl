@@ -38,6 +38,7 @@ end
 function integrate!(t::Float64, particles::Vector{<:Particle}, force::Function, Δt::Float64)
     fR = calc_forces(particles, force)
 
+    # TODO: Can I combine the for loops? There is something I vaguely remember about different timesteps/step
     # Kick
     for (i, p) in enumerate(particles)
         p.vel += 0.5 * fR[i, :] * Δt
