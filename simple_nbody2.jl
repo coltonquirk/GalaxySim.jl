@@ -281,7 +281,7 @@ end
 function anim_hist(hist; limits=(nothing, nothing, nothing), skip=100, seconds=1e-2)
     idx = Observable(1)
 
-    fig = Figure()
+    fig = Figure(size=(10inch, 7inch), fontsize=24pt)
     ax = Axis3(
         fig[1,1],
         limits = limits
