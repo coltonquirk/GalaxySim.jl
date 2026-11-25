@@ -303,111 +303,62 @@ function anim_hist(hist; limits=(nothing, nothing, nothing), skip=100, seconds=1
     end
 end
 
+function hist_limits(hist)
+    xlims = extrema(hist[:, begin:3:(end-2)])
+    ylims = extrema(hist[:, (begin + 1):3:(end-1)])
+    zlims = extrema(hist[:, (begin + 2):3:(end)])
+    return (xlims, ylims, zlims)
+end
+
 ###############################################################################
 #                               Testing/Example                               #
 ###############################################################################
 
-p1 = Particle(
-    [-1.0, 0.0, 0.0],
-    [0.0, -1.0, 0.0],
-    1.0
-)
-
-p2 = Particle(
-    [1.0, 0.0, 0.0],
-    [0.0, 1.0, 0.0],
-    1.0
-)
-
-p3 = Particle(
-    [0.0, 1.0, 0.0],
-    [-1.0, 0.0, 0.0],
-    1.0
-)
-
-particles = [p1, p2, p3]
-test = simulate(particles, grav_force;)
+test = simulate(:default, grav_force;)
 plot_hist(test)
 anim_hist(
     test;
-    limits = (-90, 10, -10, 10, -2, 2),
+    limits = (-90, 10, -10, 10, -1, 1),
     skip=50,
     seconds = 1e-2
 )
 
-Sun = Particle(
-    [0.0, 0.0, 0.0],
-    [0.0, 0.0, 0.0],
-    1.0
-)
-
-Earth = Particle(
-    [1.0, 0.0, 0.0],
-    [0.0, 1.0, 0.0], # Why does 1.0 work for the simulated Earth example? Shouldn't it be 2 or 4π?
-    # TODO: Circular orbital velocity with G=M=1.0 (technically GM should be 4π)
-    # v = √(GM/r) = √(1*1/1)=1.0
-    1e-8
-)
-
-solar_system = [Sun, Earth]
-sol = simulate(solar_system, grav_force;)
-plot_hist(sol; skip=10)
+sol = simulate(:solar_system, grav_force; tf=500.0, Δt=1e-4)
+plot_hist(sol; skip=1000)
 anim_hist(
     sol;
-    limits = (-1, 1, -1, 1, -1, 1),
-    skip=10,
+    limits = ((-30.2, 30.2), (-30.2, 30.2), (-1, 1)), # hist_limits(sol), # (-1, 1, -1, 1, -1, 1),
+    skip=100,
     seconds=1e-2
 )
 
 
-# Orbit I.A.1 i.c.
-p1 = Particle(
-    [-1.0, 0.0, 0.0],
-    [0.3471168881, 0.5327249454, 0.0],
-    1.0
-)
-
-p2 = Particle(
-    [1.0, 0.0, 0.0],
-    [0.3471168881, 0.5327249454, 0.0],
-    1.0
-)
-
-p3 = Particle(
-    [0.0, 0.0, 0.0],
-    [-0.6942337762, -1.0654498908, 0.0],
-    1.0
-)
-
-particles = [p1, p2, p3]
-periodic = simulate(particles, grav_force)
-plot_hist(periodic)
-
-# Broucke A 1
-p1 = Particle(
-    [-0.9892620043, 0.0, 0.0],
-    [0.0, 1.9169244185, 0.0],
-    1.0
-)
-
-p2 = Particle(
-    [2.2096177241, 0.0, 0.0],
-    [0.0, 0.1910268738, 0.0],
-    1.0
-)
-
-p3 = Particle(
-    [-1.2203557197, 0.0, 0.0],
-    [0.0, -2.1079512924, 0.0],
-    1.0
-)
-
-particles = [p1, p2, p3]
-broucke = simulate(particles, grav_force; tf = 20.0, Δt=1e-4)
-plot_hist(broucke; skip=500)
+periodic = simulate(:figure_eight, grav_force; tf=20.0)
+plot_hist(periodic; skip=10)
 anim_hist(
-    broucke;
+    periodic;
+    limits = (-1.5, 1.5, -1.0, 1.0, -1, 1),
+    skip = 1,
+    seconds = 1e-2
+)
+
+hist_broucke = simulate(:broucke, grav_force; tf = 20.0, Δt=1e-4)
+plot_hist(hist_broucke; skip=500)
+anim_hist(
+    hist_broucke;
     limits = (-3, 3, -1, 1, -2, 2),
+    skip=50,
+    seconds = 1e-4
+)
+
+rand_particles = random_particles(3)
+hist_rand = simulate(rand_particles, grav_force; tf=10.0, Δt=1e-4)
+
+hist_rand = simulate(:random, grav_force; tf=10.0, Δt=1e-4)
+plot_hist(hist_rand; skip=500)
+anim_hist(
+    hist_rand;
+    limits = hist_limits(hist_rand),
     skip=50,
     seconds = 1e-4
 )
